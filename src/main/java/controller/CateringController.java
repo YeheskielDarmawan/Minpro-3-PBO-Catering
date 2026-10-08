@@ -1,0 +1,45 @@
+package controller;
+
+import model.*;
+import java.util.ArrayList;
+
+public class CateringController implements OperasiData {
+    private final ArrayList<MenuCatering> daftarMenu = new ArrayList<>();
+
+    public CateringController() {
+        // Dummy data
+        daftarMenu.add(new MenuMakanan(1, "Ayam Goreng", 20000, "Sedang"));
+        daftarMenu.add(new MenuMinuman(2, "Es Teh", 5000, "Jumbo"));
+    }
+
+    public ArrayList<MenuCatering> getDaftarMenu() {
+        return daftarMenu;
+    }
+
+    public void tambahMenu(MenuCatering menu) {
+        daftarMenu.add(menu);
+    }
+
+    @Override
+    public void tambahData() {
+        // Implementasi interface
+    }
+
+    @Override
+    public void hapusData(int id) {
+        daftarMenu.removeIf(menu -> menu.getId() == id);
+    }
+
+    @Override
+public void updateData(int id, String namaBaru, double hargaBaru) {
+    for (MenuCatering menu : daftarMenu) {
+        if (menu.getId() == id) {
+            menu.setNama(namaBaru);
+            menu.setHarga(hargaBaru);
+            System.out.println("Data menu berhasil diperbarui!");
+            return;
+        }
+    }
+    System.out.println("Menu dengan ID " + id + " tidak ditemukan.");
+    }
+}
