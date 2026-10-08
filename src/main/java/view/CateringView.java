@@ -1,7 +1,9 @@
 package view;
 
 import controller.CateringController;
-import model.*;
+import model.MenuMakanan;
+import model.MenuMinuman;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CateringView {
@@ -9,8 +11,7 @@ public class CateringView {
     private Scanner scanner = new Scanner(System.in);
 
     public void start() {
-        int pilih = 0;
-        while (pilih != 6) {
+        while (true) {
             System.out.println("\n=== SISTEM MANAJEMEN CATERING (MVC) ===");
             System.out.println("1. Lihat Semua Menu");
             System.out.println("2. Tambah Makanan");
@@ -19,53 +20,102 @@ public class CateringView {
             System.out.println("5. Update Menu");
             System.out.println("6. Keluar");
             System.out.print("Pilih menu: ");
-            pilih = scanner.nextInt();
-            scanner.nextLine();
 
-            switch (pilih) {
+            int pilihan = ambilInputAngka();
+
+            switch (pilihan) {
                 case 1:
-                    if (controller.getDaftarMenu().isEmpty()) {
-                        System.out.println("Belum ada data menu.");
-                    } else {
-                        for (MenuCatering m : controller.getDaftarMenu()) {
-                            m.tampilDetail();
-                        }
-                    }
+                    controller.tampilkanSemuaMenu();
                     break;
                 case 2:
-                    System.out.print("ID: "); int idM = scanner.nextInt(); scanner.nextLine();
-                    System.out.print("Nama: "); String namaM = scanner.nextLine();
-                    System.out.print("Harga: "); double hargaM = scanner.nextDouble(); scanner.nextLine();
-                    System.out.print("Tingkat Pedas: "); String pedas = scanner.nextLine();
-                    controller.tambahMenu(new MenuMakanan(idM, namaM, hargaM, pedas));
+                    tambahMakanan();
                     break;
                 case 3:
-                    System.out.print("ID: "); int idMin = scanner.nextInt(); scanner.nextLine();
-                    System.out.print("Nama: "); String namaMin = scanner.nextLine();
-                    System.out.print("Harga: "); double hargaMin = scanner.nextDouble(); scanner.nextLine();
-                    System.out.print("Ukuran: "); String ukuran = scanner.nextLine();
-                    controller.tambahMenu(new MenuMinuman(idMin, namaMin, hargaMin, ukuran));
+                    tambahMinuman();
                     break;
                 case 4:
-                    System.out.print("Masukkan ID yang dihapus: ");
-                    int idHapus = scanner.nextInt();
-                    controller.hapusData(idHapus);
+                    hapusMenu();
                     break;
                 case 5:
-                    System.out.print("Masukkan ID menu yang ingin diupdate: ");
-                    int idUpdate = scanner.nextInt(); scanner.nextLine();
-                    System.out.print("Masukkan Nama Baru: ");
-                    String namaBaru = scanner.nextLine();
-                    System.out.print("Masukkan Harga Baru: ");
-                    double hargaBaru = scanner.nextDouble(); scanner.nextLine();
-                    controller.updateData(idUpdate, namaBaru, hargaBaru);
+                    updateMenu();
                     break;
                 case 6:
-                    System.out.println("Terima kasih!");
-                    break;
+                    System.out.println("Terima kasih telah menggunakan aplikasi!");
+                    return;
                 default:
-                    System.out.println("Pilihan tidak valid!");
+                    System.out.println("Pilihan tidak valid! Masukkan angka 1-6.");
             }
         }
+    }
+
+    private int ambilInputAngka() {
+        while (true) {
+            try {
+                int angka = scanner.nextInt();
+                scanner.nextLine();
+                return angka;
+            } catch (InputMismatchException e) {
+                System.out.print("Input harus berupa angka! Masukkan ulang: ");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    private double ambilInputDouble() {
+        while (true) {
+            try {
+                double angka = scanner.nextDouble();
+                scanner.nextLine();
+                return angka;
+            } catch (InputMismatchException e) {
+                System.out.print("Input harus berupa angka/desimal! Masukkan ulang: ");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    private void tambahMakanan() {
+        System.out.print("ID: ");
+        int id = ambilInputAngka();
+        System.out.print("Nama: ");
+        String nama = scanner.nextLine();
+        System.out.print("Harga: ");
+        double harga = ambilInputDouble();
+        System.out.print("Tingkat Pedas: ");
+        String pedas = scanner.nextLine();
+
+        controller.tambahData(new MenuMakanan(id, nama, harga, pedas));
+        System.out.println("Makanan berhasil ditambahkan!");
+    }
+
+    private void tambahMinuman() {
+        System.out.print("ID: ");
+        int id = ambilInputAngka();
+        System.out.print("Nama: ");
+        String nama = scanner.nextLine();
+        System.out.print("Harga: ");
+        double harga = ambilInputDouble();
+        System.out.print("Ukuran: ");
+        String ukuran = scanner.nextLine();
+
+        controller.tambahData(new MenuMinuman(id, nama, harga, ukuran));
+        System.out.println("Minuman berhasil ditambahkan!");
+    }
+
+    private void hapusMenu() {
+        System.out.print("Masukkan ID yang dihapus: ");
+        int id = ambilInputAngka();
+        controller.hapusData(id);
+    }
+
+    private void updateMenu() {
+        System.out.print("Masukkan ID yang diupdate: ");
+        int id = ambilInputAngka();
+        System.out.print("Nama Baru: ");
+        String nama = scanner.nextLine();
+        System.out.print("Harga Baru: ");
+        double harga = ambilInputDouble();
+
+        controller.updateData(id, nama, harga);
     }
 }
