@@ -63,13 +63,13 @@ Proyek ini disusun rapi menggunakan arsitektur MVC yang terbagi ke dalam beberap
 ## 📸 Tangkapan Layar (Screenshot Output)
 
 ### 1. Lihat Semua Menu
-![Lihat Menu](Lihat Semua Menu.png)
+![Lihat Menu](LihatSemuaMenu.png)
 
 ### 2. Tambah Menu
-![Tambah Menu](Tambah Menu.png)
+![Tambah Menu](TambahMenu.png)
 
 ### 3. Update Menu
-![Update Menu](Update Menu.png)
+![Update Menu](UpdateMenu.png)
 
 ### 4. Hapus Menu
-![Hapus Menu](Hapus Menu.png)
+![Hapus Menu](HapusMenu.png)
